@@ -42,6 +42,7 @@ class HWMonitor:
                     sensor_name = str(sensor.Name)
                     sensor_type = str(sensor.SensorType)
                     value = sensor.Value
+                    # print(sensor_name, sensor_type, value)
                     if sensor_type == 'Temperature':
                         if 'Core' in sensor_name and 'cpu' in identifier:
                             dict_to_return['CPU_Temperature'] = value

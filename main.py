@@ -1,7 +1,6 @@
 from PIL import Image, ImageFont, ImageDraw
 from easyhid import Enumeration
 from time import sleep
-import signal
 import sys
 import LibreHardwareMonitorAPI as LHM
 
@@ -33,13 +32,17 @@ while True:
     font = ImageFont.truetype("OpenSans-Regular.ttf", 12)
 
     data = monitor.get_hardware_brief_information()
+    print(data)
     if a <= t:
         draw.text((0, 0), 'CPU Load: {:2.0f}%'.format(data.get('CPU_Load')), font=font, fill=255)
         draw.text((0, 12), "CPU Power: {:4.0f}W".format(data.get('CPU_Power')), font=font, fill=255)
         draw.text((0, 24), "CPU Temp: {:4.0f}°C".format(data.get('CPU_Temperature')), font=font, fill=255)
     elif t < a <= 2 * t:
         draw.text((0, 0), 'GPU Load: {:2.0f}%'.format(data.get('GPU_Core_Load')), font=font, fill=255)
-        draw.text((0, 12), "GPU Power: {:4.0f}W".format(data.get('GPU_Power')), font=font, fill=255)
+        try:
+            draw.text((0, 12), "GPU Power: {:4.0f}W".format(data.get('GPU_Power')), font=font, fill=255)
+        except TypeError:
+            pass
         draw.text((0, 24), "GPU Temp: {:4.0f}°C".format(data.get('GPU_Temperature')), font=font, fill=255)
     if a == 2 * t:
         a = 0
